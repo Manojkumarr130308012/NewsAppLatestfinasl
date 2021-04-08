@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "530858986281",
+    "firebase_url": "https://newsapplication-e67f5.firebaseio.com",
+    "project_id": "newsapplication-e67f5",
+    "storage_bucket": "newsapplication-e67f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530858986281:android:d5183db50b351f66c20538",
+        "android_client_info": {
+          "package_name": "com.rajuuu.newsapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530858986281-mnd4dem09adf4t034h4iqm9qulm9drhp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4xE3rcDMutVe5R5ShaRctwznOvhHeq7I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530858986281-mnd4dem09adf4t034h4iqm9qulm9drhp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
