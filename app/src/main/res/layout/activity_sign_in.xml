@@ -146,7 +146,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:weightSum="2">
+                android:weightSum="1">
 
                 <Button
                     android:id="@+id/button_login_activity"
@@ -169,6 +169,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_login_skip_background"
                     android:text="@string/skip"
+                    android:visibility="gone"
                     android:textColor="@color/orange"
                     android:textSize="14sp"
                     android:textStyle="bold"
