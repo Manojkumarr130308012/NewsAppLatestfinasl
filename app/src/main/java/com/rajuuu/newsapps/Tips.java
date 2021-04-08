@@ -1,29 +1,27 @@
-package com.example.fragment;
+package com.rajuuu.newsapps;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
 import com.example.adapter.LatestAdapter;
+import com.example.adapter.TipsAdapter;
 import com.example.item.ItemLatest;
+import com.example.item.Tipsmodel;
 import com.example.util.Constant;
 import com.example.util.JsonUtils;
-import com.rajuuu.newsapps.R;
-import com.rajuuu.newsapps.SearchActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,35 +29,34 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-
-public class LatestFragment extends Fragment {
-
-    ArrayList<ItemLatest> mListItem;
+public class Tips extends AppCompatActivity {
+    ArrayList<Tipsmodel> mListItem;
     public RecyclerView recyclerView;
-    LatestAdapter adapter;
+    TipsAdapter adapter;
     private ProgressBar progressBar;
     private LinearLayout lyt_not_found;
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_category, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tips);
+
 
         mListItem = new ArrayList<>();
 
-        lyt_not_found = rootView.findViewById(R.id.lyt_not_found);
-        progressBar = rootView.findViewById(R.id.progressBar);
-        recyclerView = rootView.findViewById(R.id.vertical_courses_list);
+        lyt_not_found = findViewById(R.id.lyt_not_found);
+        progressBar = findViewById(R.id.progressBar);
+        recyclerView = findViewById(R.id.vertical_courses_list);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         recyclerView.setFocusable(false);
 
-        if (JsonUtils.isNetworkAvailable(requireActivity())) {
-            new getLatest().execute(Constant.LATEST_URL);
+        if (JsonUtils.isNetworkAvailable(Tips.this)) {
+            new getLatest().execute(Constant.TIPS);
         }
-        setHasOptionsMenu(true);
-        return rootView;
+//        setHasOptionsMenu(true);
     }
+
+
 
     @SuppressLint("StaticFieldLeak")
     private class getLatest extends AsyncTask<String, Void, String> {
@@ -84,19 +81,19 @@ public class LatestFragment extends Fragment {
             } else {
                 try {
                     JSONObject mainJson = new JSONObject(result);
-                    JSONArray jsonArray = mainJson.getJSONArray(Constant.LATEST_ARRAY_NAME);
+                    JSONArray jsonArray = mainJson.getJSONArray("NEWS_APP");
                     JSONObject objJson;
                     for (int i = 0; i < jsonArray.length(); i++) {
                         objJson = jsonArray.getJSONObject(i);
-                        ItemLatest objItem = new ItemLatest();
-                        objItem.setNewsId(objJson.getString(Constant.LATEST_ID));
-                        objItem.setNewsTitle(objJson.getString(Constant.LATEST_HEADING));
-                        objItem.setNewsImage(objJson.getString(Constant.LATEST_IMAGE));
-                        objItem.setNewsDesc(objJson.getString(Constant.LATEST_DESC));
-                        objItem.setNewsDate(objJson.getString(Constant.LATEST_DATE));
-                        objItem.setNewsView(objJson.getString(Constant.LATEST_VIEW));
-                        objItem.setNewsType(objJson.getString(Constant.LATEST_TYPE));
-                        objItem.setNewsVideoId(objJson.getString(Constant.LATEST_VIDEO_PLAY_ID));
+                        Tipsmodel objItem = new Tipsmodel(objJson.getString("tips_id"),objJson.getString("tips_name"),objJson.getString("tips_desc"),objJson.getString("tips_image"));
+//                        objItem.setNewsId(objJson.getString(Constant.LATEST_ID));
+//                        objItem.setNewsTitle(objJson.getString(Constant.LATEST_HEADING));
+//                        objItem.setNewsImage(objJson.getString(Constant.LATEST_IMAGE));
+//                        objItem.setNewsDesc(objJson.getString(Constant.LATEST_DESC));
+//                        objItem.setNewsDate(objJson.getString(Constant.LATEST_DATE));
+//                        objItem.setNewsView(objJson.getString(Constant.LATEST_VIEW));
+//                        objItem.setNewsType(objJson.getString(Constant.LATEST_TYPE));
+//                        objItem.setNewsVideoId(objJson.getString(Constant.LATEST_VIDEO_PLAY_ID));
                         mListItem.add(objItem);
                     }
                 } catch (JSONException e) {
@@ -108,8 +105,8 @@ public class LatestFragment extends Fragment {
     }
 
     private void displayData() {
-        if (getActivity() != null) {
-            adapter = new LatestAdapter(getActivity(), mListItem);
+        if (getApplicationContext() != null) {
+            adapter = new TipsAdapter(getApplicationContext(), mListItem);
             recyclerView.setAdapter(adapter);
 
             if (adapter.getItemCount() == 0) {
@@ -132,7 +129,6 @@ public class LatestFragment extends Fragment {
     }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_main, menu);
 
         final SearchView searchView = (SearchView) menu.findItem(R.id.search)
@@ -163,7 +159,7 @@ public class LatestFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                 intent.putExtra("search", query);
                 startActivity(intent);
                 searchView.clearFocus();

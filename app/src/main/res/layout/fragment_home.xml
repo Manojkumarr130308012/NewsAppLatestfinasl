@@ -58,7 +58,7 @@
                     app:ci_width="6dp" />
             </RelativeLayout>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp">
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_horizental_category"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -140,15 +140,16 @@
 
                     </RelativeLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/card_view2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 card_view:cardBackgroundColor="@color/white"
                 card_view:cardElevation="3dp"
                 card_view:cardCornerRadius="0dp"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                  card_view:cardPreventCornerOverlap="false"
                 card_view:cardUseCompatPadding="false">
@@ -207,7 +208,7 @@
                         android:layout_marginBottom="4dp"
                         android:layout_marginStart="4dp">
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_latest_top"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -222,9 +223,9 @@
 
                     </RelativeLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/card_view3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -291,14 +292,14 @@
                         android:layout_marginEnd="4dp"
                         android:layout_marginStart="4dp">
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_latest_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
                     </RelativeLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
         </LinearLayout>

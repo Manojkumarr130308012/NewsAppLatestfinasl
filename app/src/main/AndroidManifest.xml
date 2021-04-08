@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="com.rajuuu.newsapps.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
@@ -16,54 +16,62 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.rajuuu.newsapps.ActivitySplash">
+        <activity android:name=".Tips"
+            android:parentActivityName=".ActivityMain"
+            android:theme="@style/AppTheme1"
+            android:label="Tips"></activity>
+        <activity
+            android:name=".LatestNews"
+            android:parentActivityName=".ActivityMain"
+            android:theme="@style/AppTheme1"
+            android:label="LatestNews"/>
+        <activity android:name=".ActivitySplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.rajuuu.newsapps.ActivityMain"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:name=".ActivityMain"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name="com.rajuuu.newsapps.NewsDetailActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:name=".NewsDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name="com.rajuuu.newsapps.CommentActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:name=".CommentActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name="com.rajuuu.newsapps.ImageActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:name=".ImageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name="com.rajuuu.newsapps.SearchActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:name=".SearchActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name="com.rajuuu.newsapps.AboutUsActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:name=".AboutUsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name="com.rajuuu.newsapps.PrivacyActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:name=".PrivacyActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name="com.rajuuu.newsapps.SignInActivity"
+            android:name=".SignInActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.rajuuu.newsapps.SignUpActivity"
+            android:name=".SignUpActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.rajuuu.newsapps.ForgotPasswordActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:name=".ForgotPasswordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name="com.rajuuu.newsapps.ProfileActivity"
+            android:name=".ProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
-        <!-- youtube play activity -->
+            android:windowSoftInputMode="adjustPan" /> <!-- youtube play activity -->
         <activity
             android:name="com.example.youtube.YoutubePlay"
             android:configChanges="orientation|keyboardHidden|screenSize" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

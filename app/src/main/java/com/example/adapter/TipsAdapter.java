@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,17 +20,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.favorite.DatabaseHelper;
 import com.example.item.ItemLatest;
+import com.example.item.Tipsmodel;
 import com.example.util.Constant;
 import com.example.util.JsonUtils;
 import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.squareup.picasso.Picasso;
 import com.rajuuu.newsapps.NewsDetailActivity;
 import com.rajuuu.newsapps.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,47 +43,47 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ItemRowHolder> {
 
-public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.ItemRowHolder> {
-
-    private ArrayList<ItemLatest> dataList;
+    private ArrayList<Tipsmodel> dataList;
     private Context mContext;
     private DatabaseHelper databaseHelper;
     private String s_title, s_image, s_desc, s_type, s_play_id;
     private InterstitialAd mInterstitial;
     private int AD_COUNT = 0;
 
-    public LatestAdapter(Context context, ArrayList<ItemLatest> dataList) {
+    public TipsAdapter(Context context, ArrayList<Tipsmodel> dataList) {
         this.dataList = dataList;
         this.mContext = context;
         databaseHelper = new DatabaseHelper(mContext);
     }
 
     @Override
-    public ItemRowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_latest_item, parent, false);
-        return new ItemRowHolder(v);
+    public TipsAdapter.ItemRowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_tips_item, parent, false);
+        return new TipsAdapter.ItemRowHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final ItemRowHolder holder, final int position) {
-        final ItemLatest singleItem = dataList.get(position);
+    public void onBindViewHolder(final TipsAdapter.ItemRowHolder holder, final int position) {
+        final Tipsmodel singleItem = dataList.get(position);
 
-        if (singleItem.getNewsType().equals("video")) {
-            if (singleItem.getNewsImage().isEmpty()) {
-                Picasso.get().load(Constant.YOUTUBE_IMAGE_FRONT + singleItem.getNewsVideoId() + Constant.YOUTUBE_SMALL_IMAGE_BACK).placeholder(R.drawable.place_holder_big).into(holder.image_news);
-            }
-            holder.image_play.setVisibility(View.VISIBLE);
-        } else if (singleItem.getNewsType().equals("image")) {
-            Picasso.get().load(singleItem.getNewsImage()).placeholder(R.drawable.place_holder_big).into(holder.image_news);
-            holder.image_play.setVisibility(View.GONE);
-        }
-        holder.txt_date.setText(singleItem.getNewsDate());
-        holder.txt_title.setText(singleItem.getNewsTitle());
-        holder.txt_desc.setText(Html.fromHtml(singleItem.getNewsDesc()));
-        holder.txt_view.setText(JsonUtils.Format(Integer.parseInt(singleItem.getNewsView())));
+//        if (singleItem.getNewsType().equals("video")) {
+//            if (singleItem.getNewsImage().isEmpty()) {
+//                Picasso.get().load(Constant.YOUTUBE_IMAGE_FRONT + singleItem.getNewsVideoId() + Constant.YOUTUBE_SMALL_IMAGE_BACK).placeholder(R.drawable.place_holder_big).into(holder.image_news);
+//            }
+//            holder.image_play.setVisibility(View.VISIBLE);
+//        } else if (singleItem.getNewsType().equals("image")) {
+//            holder.image_play.setVisibility(View.GONE);
+//        }
+        Picasso.get().load(singleItem.getTips_image()).placeholder(R.drawable.place_holder_big).into(holder.image_news);
 
-        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+//        holder.txt_date.setText(singleItem.getNewsDate());
+        holder.txt_title.setText(singleItem.getTips_name());
+        holder.txt_desc.setText(Html.fromHtml(singleItem.getTips_desc()));
+//        holder.txt_view.setText(JsonUtils.Format(Integer.parseInt(singleItem.getNewsView())));
+
+      /*  holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (Constant.SAVE_ADS_FULL_ON_OFF.equals("true")) {
@@ -142,9 +144,9 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.ItemRowHol
                 }
 
             }
-        });
+        });*/
 
-        holder.lyt_share.setOnClickListener(new View.OnClickListener() {
+ /*       holder.lyt_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 s_title = singleItem.getNewsTitle();
@@ -154,11 +156,11 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.ItemRowHol
                 s_type = singleItem.getNewsType();
 
                 if (s_type.equals("video")) {
-                    (new SaveTask(mContext)).execute(Constant.YOUTUBE_IMAGE_FRONT + s_play_id + Constant.YOUTUBE_SMALL_IMAGE_BACK);
+                    (new LatestAdapter.SaveTask(mContext)).execute(Constant.YOUTUBE_IMAGE_FRONT + s_play_id + Constant.YOUTUBE_SMALL_IMAGE_BACK);
                 } else {
-                    (new SaveTask(mContext)).execute(s_image);
+                    (new LatestAdapter.SaveTask(mContext)).execute(s_image);
                 }
-             }
+            }
         });
 
         if (databaseHelper.getFavouriteById(singleItem.getNewsId())) {
@@ -189,7 +191,7 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.ItemRowHol
                     Toast.makeText(mContext, mContext.getString(R.string.favourite_add), Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
 
     }
 

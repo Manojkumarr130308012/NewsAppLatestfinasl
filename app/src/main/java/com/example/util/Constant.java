@@ -48,6 +48,7 @@ public class Constant implements Serializable {
     public static final String YOUTUBE_SMALL_IMAGE_BACK="/hqdefault.jpg";
 
     public static final String LATEST_ARRAY_NAME="NEWS_APP";
+    public static final String TIPS=SERVER_URL+"api.php?tips";
     public static final String HOME_FEATURED_ARRAY="featured_news";
     public static final String HOME_TOP_ARRAY="top_10_news";
     public static final String HOME_LATEST_ARRAY="latest_news";

@@ -5,16 +5,16 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,11 +41,11 @@ import com.example.item.ItemLatest;
 import com.example.util.Constant;
 import com.example.util.EnchantedViewPager;
 import com.example.util.JsonUtils;
-import com.example.util.RecyclerTouchListener;
 import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.rajuuu.newsapps.LatestNews;
 import com.squareup.picasso.Picasso;
 import com.rajuuu.newsapps.ActivityMain;
 import com.rajuuu.newsapps.NewsDetailActivity;
@@ -150,15 +150,18 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                ((ActivityMain) requireActivity()).highLightNavigation(1);
-                String categoryName = getString(R.string.menu_latest);
-                FragmentManager fm = getFragmentManager();
-                LatestFragment f1 = new LatestFragment();
-                assert fm != null;
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.fragment1, f1, categoryName);
-                ft.commit();
-                ((ActivityMain) requireActivity()).setToolbarTitle(categoryName);
+//                ((ActivityMain) requireActivity()).highLightNavigation(1);
+//                String categoryName = getString(R.string.menu_latest);
+//                FragmentManager fm = getFragmentManager();
+//                LatestFragment f1 = new LatestFragment();
+//                assert fm != null;
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.replace(R.id.fragment1, f1, categoryName);
+//                ft.commit();
+//                ((ActivityMain) requireActivity()).setToolbarTitle(categoryName);
+
+                Intent i=new Intent(getActivity(), LatestNews.class);
+                startActivity(i);
             }
         });
 
@@ -335,7 +338,7 @@ public class HomeFragment extends Fragment {
 
         }
 
-        myCategoryAdapter = new MyCategoryAdapter(furnitureList);
+        myCategoryAdapter = new MyCategoryAdapter(furnitureList,getActivity());
         rv_horizental_category.setAdapter(myCategoryAdapter);
 
     }

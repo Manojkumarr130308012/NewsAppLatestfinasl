@@ -1,14 +1,20 @@
 package com.example.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rajuuu.newsapps.LatestNews;
 import com.rajuuu.newsapps.R;
+import com.rajuuu.newsapps.Tips;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +25,12 @@ public class MyCategoryAdapter extends RecyclerView.Adapter<MyCategoryAdapter.Fu
 
     List<HashMap<String, Object>> furnitureList = new ArrayList<>();
     List<HashMap<String, Object>> filteredList = new ArrayList<>();
+    Context context;
 
-    public MyCategoryAdapter(List<HashMap<String, Object>> fList) {
+    public MyCategoryAdapter(List<HashMap<String, Object>> fList, Context context) {
         this.furnitureList = fList;
         filteredList = furnitureList;
+        this.context=context;
     }
 
     @NonNull
@@ -37,10 +45,34 @@ public class MyCategoryAdapter extends RecyclerView.Adapter<MyCategoryAdapter.Fu
     @Override
     public void onBindViewHolder(@NonNull FurnitureView furnitureView, int position) {
 
-        HashMap<String, Object> map = filteredList.get(position);
+        final HashMap<String, Object> map = filteredList.get(position);
 
         furnitureView.categoryImage.setImageResource((Integer) map.get("Image"));
         furnitureView.textTitle.setText(String.valueOf(map.get("Title")));
+
+
+        furnitureView.categoryImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("dddddddddddddddd",""+String.valueOf(map.get("Title")));
+                String titlestr=String.valueOf(map.get("Title"));
+                if (titlestr.equals("News")){
+                    Intent i=new Intent(context, LatestNews.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
+
+                }else if (titlestr.equals("Tips")){
+                    Intent i=new Intent(context, Tips.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
+                }else if (titlestr.equals("Contacts")){
+
+                }else if (titlestr.equals("Add News")){
+
+                }
+
+            }
+        });
 
     }
 

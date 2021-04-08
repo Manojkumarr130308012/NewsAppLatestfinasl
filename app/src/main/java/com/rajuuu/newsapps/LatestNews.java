@@ -1,21 +1,23 @@
 package com.rajuuu.newsapps;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.adapter.LatestAdapter;
+import com.example.fragment.LatestFragment;
 import com.example.item.ItemLatest;
 import com.example.util.Constant;
 import com.example.util.JsonUtils;
@@ -26,37 +28,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-public class SearchActivity extends AppCompatActivity {
-
+public class LatestNews extends AppCompatActivity {
     ArrayList<ItemLatest> mListItem;
     public RecyclerView recyclerView;
     LatestAdapter adapter;
     private ProgressBar progressBar;
     private LinearLayout lyt_not_found;
-    String search;
-    LinearLayout adLayout;
-
     @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.search);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        setContentView(R.layout.activity_latest_news);
 
-        Intent intent = getIntent();
-        search = intent.getStringExtra("search");
 
         mListItem = new ArrayList<>();
 
@@ -64,20 +46,16 @@ public class SearchActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.vertical_courses_list);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(SearchActivity.this, 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
         recyclerView.setFocusable(false);
-        adLayout = findViewById(R.id.adLayout);
-        if (JsonUtils.personalization_ad) {
-            JsonUtils.showPersonalizedAds(adLayout, SearchActivity.this);
-        } else {
-            JsonUtils.showNonPersonalizedAds(adLayout, SearchActivity.this);
-        }
 
-        if (JsonUtils.isNetworkAvailable(SearchActivity.this)) {
-            new getLatest().execute(Constant.SEARCH_URL+search);
+        if (JsonUtils.isNetworkAvailable(LatestNews.this)) {
+            new getLatest().execute(Constant.LATEST_URL);
         }
-
+//        setHasOptionsMenu(true);
     }
+
+
 
     @SuppressLint("StaticFieldLeak")
     private class getLatest extends AsyncTask<String, Void, String> {
@@ -126,13 +104,15 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void displayData() {
-        adapter = new LatestAdapter(SearchActivity.this, mListItem);
-        recyclerView.setAdapter(adapter);
+        if (getApplicationContext() != null) {
+            adapter = new LatestAdapter(getApplicationContext(), mListItem);
+            recyclerView.setAdapter(adapter);
 
-        if (adapter.getItemCount() == 0) {
-            lyt_not_found.setVisibility(View.VISIBLE);
-        } else {
-            lyt_not_found.setVisibility(View.GONE);
+            if (adapter.getItemCount() == 0) {
+                lyt_not_found.setVisibility(View.VISIBLE);
+            } else {
+                lyt_not_found.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -147,18 +127,44 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
 
-            default:
-                return super.onOptionsItemSelected(menuItem);
-        }
-        return true;
+        final SearchView searchView = (SearchView) menu.findItem(R.id.search)
+                .getActionView();
+
+        final MenuItem searchMenuItem = menu.findItem(R.id.search);
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // TODO Auto-generated method stub
+                if (!hasFocus) {
+                    searchMenuItem.collapseActionView();
+                    searchView.setQuery("", false);
+                }
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // TODO Auto-generated method stub
+
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // TODO Auto-generated method stub
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("search", query);
+                startActivity(intent);
+                searchView.clearFocus();
+                return false;
+            }
+        });
+
     }
-
-
 }
