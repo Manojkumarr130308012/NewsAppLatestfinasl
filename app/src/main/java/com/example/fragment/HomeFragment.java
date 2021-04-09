@@ -35,9 +35,12 @@ import com.example.adapter.HomeCatAdapter;
 import com.example.adapter.HomeLatestAdapter;
 import com.example.adapter.HomeTopAdapter;
 import com.example.adapter.MyCategoryAdapter;
+import com.example.adapter.TipsAdapter;
 import com.example.favorite.DatabaseHelper;
+import com.example.item.Bannermodel;
 import com.example.item.ItemCategory;
 import com.example.item.ItemLatest;
+import com.example.item.Tipsmodel;
 import com.example.util.Constant;
 import com.example.util.EnchantedViewPager;
 import com.example.util.JsonUtils;
@@ -71,6 +74,7 @@ public class HomeFragment extends Fragment {
     RecyclerView rv_horizental_category, mLatestView, mTopView;
     HomeTopAdapter homeTopAdapter;
     ArrayList<ItemLatest> mLatestList, mTopList;
+    ArrayList<Bannermodel> BannerList;
     ArrayList<ItemCategory> mCatList;
     Button btnCat, btnLatest, btnTop;
     EnchantedViewPager mViewPager;
@@ -97,6 +101,7 @@ public class HomeFragment extends Fragment {
         databaseHelper = new DatabaseHelper(getActivity());
         mSliderList = new ArrayList<>();
         mLatestList = new ArrayList<>();
+        BannerList = new ArrayList<>();
         mCatList = new ArrayList<>();
         mAdapter = new CustomViewPagerAdapter();
         mTopList = new ArrayList<>();
@@ -136,6 +141,8 @@ public class HomeFragment extends Fragment {
 
         if (JsonUtils.isNetworkAvailable(requireActivity())) {
             new Home().execute(Constant.HOME_URL);
+
+            new getBanner().execute(Constant.BANNERF_URL);
         }
 
         if (getResources().getString(R.string.isRTL).equals("true")) {
@@ -453,14 +460,74 @@ public class HomeFragment extends Fragment {
             homeLatestAdapter = new HomeLatestAdapter(getActivity(), mLatestList);
             mLatestView.setAdapter(homeLatestAdapter);
 
-            if (!mSliderList.isEmpty()) {
-                mViewPager.setAdapter(mAdapter);
-                circleIndicator.setViewPager(mViewPager);
-                autoPlay(mViewPager);
-            }
+
 
         }
     }
+    @SuppressLint("StaticFieldLeak")
+    private class getBanner extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return JsonUtils.getJSONString(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            if (null == result || result.length() == 0) {
+
+            } else {
+                try {
+                    JSONObject mainJson = new JSONObject(result);
+                    JSONArray jsonArray = mainJson.getJSONArray("NEWS_APP");
+                    JSONObject objJson;
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        objJson = jsonArray.getJSONObject(i);
+                        Bannermodel objItem = new Bannermodel(objJson.getString("banner_id"),objJson.getString("banner_link"),objJson.getString("banner_image"));
+//                        objItem.setNewsId(objJson.getString(Constant.LATEST_ID));
+//                        objItem.setNewsTitle(objJson.getString(Constant.LATEST_HEADING));
+//                        objItem.setNewsImage(objJson.getString(Constant.LATEST_IMAGE));
+//                        objItem.setNewsDesc(objJson.getString(Constant.LATEST_DESC));
+//                        objItem.setNewsDate(objJson.getString(Constant.LATEST_DATE));
+//                        objItem.setNewsView(objJson.getString(Constant.LATEST_VIEW));
+//                        objItem.setNewsType(objJson.getString(Constant.LATEST_TYPE));
+//                        objItem.setNewsVideoId(objJson.getString(Constant.LATEST_VIDEO_PLAY_ID));
+                        BannerList.add(objItem);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                displayData();
+                if (!mSliderList.isEmpty()) {
+                    mViewPager.setAdapter(mAdapter);
+                    circleIndicator.setViewPager(mViewPager);
+                    autoPlay(mViewPager);
+                }
+            }
+        }
+    }
+
+
+//    private void displayData() {
+//        if (getActivity() != null) {
+//            adapter = new CustomViewPagerAdapter(getActivity(),BannerList);
+//            recyclerView.setAdapter(adapter);
+//
+//            if (adapter.getItemCount() == 0) {
+//                lyt_not_found.setVisibility(View.VISIBLE);
+//            } else {
+//                lyt_not_found.setVisibility(View.GONE);
+//            }
+//        }
+//    }
 
     private class CustomViewPagerAdapter extends PagerAdapter {
         private LayoutInflater inflater;
@@ -472,7 +539,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return mSliderList.size();
+            return BannerList.size();
         }
 
         @Override
@@ -494,22 +561,26 @@ public class HomeFragment extends Fragment {
             LinearLayout lytShare = imageLayout.findViewById(R.id.lay_share);
             ImageView image_play = imageLayout.findViewById(R.id.image_play);
 
-            if (mSliderList.get(position).getNewsType().equals("video")) {
-                if (mSliderList.get(position).getNewsImage().isEmpty()) {
-                    Picasso.get().load(Constant.YOUTUBE_IMAGE_FRONT + mSliderList.get(position).getNewsVideoId() + Constant.YOUTUBE_SMALL_IMAGE_BACK).placeholder(R.drawable.place_holder_big).into(image);
-                }
-                image_play.setVisibility(View.VISIBLE);
-            } else if (mSliderList.get(position).getNewsType().equals("image")) {
-                Picasso.get().load(mSliderList.get(position).getNewsImage()).placeholder(R.drawable.place_holder_big).into(image);
-                image_play.setVisibility(View.GONE);
-            }
-            text_title.setText(mSliderList.get(position).getNewsTitle());
-            text_desc.setText(Html.fromHtml(mSliderList.get(position).getNewsDesc()));
-            text_date.setText(mSliderList.get(position).getNewsDate());
-            text_view.setText(JsonUtils.Format(Integer.parseInt(mSliderList.get(position).getNewsView())));
+//            if (mSliderList.get(position).getNewsType().equals("video")) {
+//                if (mSliderList.get(position).getNewsImage().isEmpty()) {
+//                    Picasso.get().load(Constant.YOUTUBE_IMAGE_FRONT + mSliderList.get(position).getNewsVideoId() + Constant.YOUTUBE_SMALL_IMAGE_BACK).placeholder(R.drawable.place_holder_big).into(image);
+//                }
+//                image_play.setVisibility(View.VISIBLE);
+//            } else
 
-            imageLayout.setTag(EnchantedViewPager.ENCHANTED_VIEWPAGER_POSITION + position);
-            lytParent.setOnClickListener(new View.OnClickListener() {
+
+//                if (mSliderList.get(position).getNewsType().equals("image")) {
+//                Picasso.get().load(mSliderList.get(position).getNewsImage()).placeholder(R.drawable.place_holder_big).into(image);
+//                image_play.setVisibility(View.GONE);
+//            }
+            text_title.setText(BannerList.get(position).getBanner_id());
+            text_desc.setText(Html.fromHtml(BannerList.get(position).getBanner_link()));
+//            text_date.setText(mSliderList.get(position).getNewsDate());
+//            text_view.setText(JsonUtils.Format(Integer.parseInt(mSliderList.get(position).getNewsView())));
+            Picasso.get().load(BannerList.get(position).getBanner_image()).placeholder(R.drawable.place_holder_big).into(image);
+
+//            imageLayout.setTag(EnchantedViewPager.ENCHANTED_VIEWPAGER_POSITION + position);
+           /* lytParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (Constant.SAVE_ADS_FULL_ON_OFF.equals("true")) {
@@ -602,7 +673,7 @@ public class HomeFragment extends Fragment {
                         Toast.makeText(getActivity(), getString(R.string.favourite_add), Toast.LENGTH_SHORT).show();
                     }
                 }
-            });
+            });*/
             container.addView(imageLayout, 0);
             return imageLayout;
         }
@@ -677,5 +748,6 @@ public class HomeFragment extends Fragment {
         });
 
     }
+
 }
 

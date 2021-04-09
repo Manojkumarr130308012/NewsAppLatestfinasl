@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.favorite.DatabaseHelper;
+import com.example.item.ItemGallery;
 import com.example.item.ItemLatest;
 import com.example.item.Tipsmodel;
 import com.example.util.Constant;
@@ -31,6 +32,7 @@ import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.rajuuu.newsapps.ImageActivity;
 import com.rajuuu.newsapps.NewsDetailActivity;
 import com.rajuuu.newsapps.R;
 import com.squareup.picasso.Picasso;
@@ -51,7 +53,7 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ItemRowHolder>
     private String s_title, s_image, s_desc, s_type, s_play_id;
     private InterstitialAd mInterstitial;
     private int AD_COUNT = 0;
-
+    ArrayList<ItemGallery> mGallery;
     public TipsAdapter(Context context, ArrayList<Tipsmodel> dataList) {
         this.dataList = dataList;
         this.mContext = context;
@@ -83,68 +85,78 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ItemRowHolder>
         holder.txt_desc.setText(Html.fromHtml(singleItem.getTips_desc()));
 //        holder.txt_view.setText(JsonUtils.Format(Integer.parseInt(singleItem.getNewsView())));
 
-      /*  holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Constant.SAVE_ADS_FULL_ON_OFF.equals("true")) {
-                    AD_COUNT++;
-                    if (AD_COUNT == Integer.parseInt(Constant.SAVE_ADS_CLICK)) {
-                        AD_COUNT = 0;
-                        mInterstitial = new InterstitialAd(mContext);
-                        mInterstitial.setAdUnitId(Constant.SAVE_ADS_FULL_ID);
-                        AdRequest adRequest;
-                        if (JsonUtils.personalization_ad) {
-                            adRequest = new AdRequest.Builder()
-                                    .build();
-                        } else {
-                            Bundle extras = new Bundle();
-                            extras.putString("npa", "1");
-                            adRequest = new AdRequest.Builder()
-                                    .addNetworkExtrasBundle(AdMobAdapter.class, extras)
-                                    .build();
-                        }
-                        mInterstitial.loadAd(adRequest);
-                        mInterstitial.setAdListener(new AdListener() {
-                            @Override
-                            public void onAdLoaded() {
-                                // TODO Auto-generated method stub
-                                super.onAdLoaded();
-                                if (mInterstitial.isLoaded()) {
-                                    mInterstitial.show();
-                                }
-                            }
 
-                            public void onAdClosed() {
-                                Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                                intent.putExtra("Id", singleItem.getNewsId());
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                mContext.startActivity(intent);
 
-                            }
-
-                            @Override
-                            public void onAdFailedToLoad(int errorCode) {
-                                Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                                intent.putExtra("Id", singleItem.getNewsId());
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                mContext.startActivity(intent);
-                            }
-                        });
-                    } else {
-                        Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                        intent.putExtra("Id", singleItem.getNewsId());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mContext.startActivity(intent);
-                    }
-                } else {
-                    Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                    intent.putExtra("Id", singleItem.getNewsId());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(intent);
-                }
-
-            }
-        });*/
+//        holder.image_news.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Constant.ConsImage = mGallery;
+//                Intent intent_gallery = new Intent(mContext, ImageActivity.class);
+//                startActivity(intent_gallery);
+//            }
+//        });
+//        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (Constant.SAVE_ADS_FULL_ON_OFF.equals("true")) {
+//                    AD_COUNT++;
+//                    if (AD_COUNT == Integer.parseInt(Constant.SAVE_ADS_CLICK)) {
+//                        AD_COUNT = 0;
+//                        mInterstitial = new InterstitialAd(mContext);
+//                        mInterstitial.setAdUnitId(Constant.SAVE_ADS_FULL_ID);
+//                        AdRequest adRequest;
+//                        if (JsonUtils.personalization_ad) {
+//                            adRequest = new AdRequest.Builder()
+//                                    .build();
+//                        } else {
+//                            Bundle extras = new Bundle();
+//                            extras.putString("npa", "1");
+//                            adRequest = new AdRequest.Builder()
+//                                    .addNetworkExtrasBundle(AdMobAdapter.class, extras)
+//                                    .build();
+//                        }
+//                        mInterstitial.loadAd(adRequest);
+//                        mInterstitial.setAdListener(new AdListener() {
+//                            @Override
+//                            public void onAdLoaded() {
+//                                // TODO Auto-generated method stub
+//                                super.onAdLoaded();
+//                                if (mInterstitial.isLoaded()) {
+//                                    mInterstitial.show();
+//                                }
+//                            }
+//
+//                            public void onAdClosed() {
+//                                Intent intent = new Intent(mContext, NewsDetailActivity.class);
+//                                intent.putExtra("Id", singleItem.getTips_id());
+//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                mContext.startActivity(intent);
+//
+//                            }
+//
+//                            @Override
+//                            public void onAdFailedToLoad(int errorCode) {
+//                                Intent intent = new Intent(mContext, NewsDetailActivity.class);
+//                                intent.putExtra("Id", singleItem.getTips_id());
+//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                mContext.startActivity(intent);
+//                            }
+//                        });
+//                    } else {
+//                        Intent intent = new Intent(mContext, NewsDetailActivity.class);
+//                        intent.putExtra("Id", singleItem.getTips_id());
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        mContext.startActivity(intent);
+//                    }
+//                } else {
+//                    Intent intent = new Intent(mContext, NewsDetailActivity.class);
+//                    intent.putExtra("Id", singleItem.getTips_id());
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    mContext.startActivity(intent);
+//                }
+//
+//            }
+//        });
 
  /*       holder.lyt_share.setOnClickListener(new View.OnClickListener() {
             @Override

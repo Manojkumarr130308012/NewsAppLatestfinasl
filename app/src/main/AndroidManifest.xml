@@ -16,15 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Tips"
+        <activity android:name=".Contact"></activity>
+        <activity
+            android:name=".Tips"
+            android:label="Tips"
             android:parentActivityName=".ActivityMain"
-            android:theme="@style/AppTheme1"
-            android:label="Tips"></activity>
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".LatestNews"
+            android:label="LatestNews"
             android:parentActivityName=".ActivityMain"
-            android:theme="@style/AppTheme1"
-            android:label="LatestNews"/>
+            android:theme="@style/AppTheme1" />
         <activity android:name=".ActivitySplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
