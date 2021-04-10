@@ -12,6 +12,10 @@
         <item name="autoCompleteTextViewStyle">@style/cursorColor</item>
     </style>
 
+    <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">10sp</item>
+    </style>
+
     <style name="AppTheme1" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -20,13 +24,21 @@
         <item name="android:typeface">serif</item>
         <item name="autoCompleteTextViewStyle">@style/cursorColor</item>
     </style>
+
     <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
         <item name="android:textCursorDrawable">@drawable/cursor</item>
     </style>
+
     <style name="BrandedSwitch.control" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- active thumb & track color (30% transparency) -->
         <item name="colorControlActivated">@color/switch_activated</item>
         <item name="colorSwitchThumbNormal">@color/switch_normal</item>
         <item name="android:colorForeground">@color/switch_normal</item>
+    </style>
+    <style name="RippleStyleWhite">
+        <item name="mrl_rippleOverlay">true</item>
+        <item name="mrl_rippleColor">#80FFFFFF</item>
+        <item name="mrl_rippleHover">true</item>
+        <item name="mrl_rippleAlpha">0.2</item>
     </style>
 </resources>

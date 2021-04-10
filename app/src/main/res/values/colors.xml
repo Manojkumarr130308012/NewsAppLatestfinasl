@@ -3,7 +3,7 @@
     <color name="colorPrimary">#FE4537</color>
     <color name="colorPrimaryDark">#D9392D</color>
     <color name="colorAccent">#FE4537</color>
-
+    <color name="grey_5">#f2f2f2</color>
     <color name="bg">#E7E7E7</color>
     <color name="comment_bg">#ffffff</color>
     <color name="white_bg">#ffffff</color>
@@ -20,14 +20,14 @@
 
     <color name="non_select_dot">#6A6A6A</color>
     <color name="select_dot">#FE4537</color>
-
+    <color name="transparent">#00FFFFFF</color>
     <color name="about_title">#353535</color>
     <color name="about_text">#8b8b8b</color>
-
+    <color name="green_500">#4CAF50</color>
     <color name="view_login">#ffffff</color>
     <color name="gray_line">#7A7B7D</color>
     <color name="line">#ECECEC</color>
-
+    <color name="overlay_light_90">#E6FFFFFF</color>
     <color name="switch_activated">#FE4537</color>
     <color name="switch_normal">#888D9F</color>
     <color name="dialog_color">#FE4537</color>

@@ -35,6 +35,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.rajuuu.newsapps.ImageActivity;
 import com.rajuuu.newsapps.NewsDetailActivity;
 import com.rajuuu.newsapps.R;
+import com.rajuuu.newsapps.TipsApplcation;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -83,6 +84,17 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ItemRowHolder>
 //        holder.txt_date.setText(singleItem.getNewsDate());
         holder.txt_title.setText(singleItem.getTips_name());
         holder.txt_desc.setText(Html.fromHtml(singleItem.getTips_desc()));
+        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                               Intent intent = new Intent(mContext, TipsApplcation.class);
+                                intent.putExtra("image",singleItem.getTips_image());
+                                intent.putExtra("title",singleItem.getTips_name());
+                                intent.putExtra("description",singleItem.getTips_desc());
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent);
+            }
+        });
 //        holder.txt_view.setText(JsonUtils.Format(Integer.parseInt(singleItem.getNewsView())));
 
 

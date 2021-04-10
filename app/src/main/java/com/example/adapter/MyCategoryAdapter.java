@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rajuuu.newsapps.AddNews;
 import com.rajuuu.newsapps.Contact;
 import com.rajuuu.newsapps.LatestNews;
 import com.rajuuu.newsapps.R;
@@ -71,7 +72,9 @@ public class MyCategoryAdapter extends RecyclerView.Adapter<MyCategoryAdapter.Fu
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
                 }else if (titlestr.equals("Add News")){
-
+                    Intent i=new Intent(context, AddNews.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
                 }
 
             }

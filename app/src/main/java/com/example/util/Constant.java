@@ -20,6 +20,7 @@ public class Constant implements Serializable {
     public static final String CITY_URL =SERVER_URL+"api.php?city";
     public static final String REPORT_URL =SERVER_URL+"api.php?reporter";
     public static final String REPORT_URL_CITY =SERVER_URL+"api.php?cityid";
+    public static final String ADD_NEWS =SERVER_URL+"addnn.php";
 
 
     public static final String BANNERF_URL =SERVER_URL+"api.php?banner";

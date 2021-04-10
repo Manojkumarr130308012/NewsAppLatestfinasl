@@ -11,6 +11,15 @@ public class ItemLatest {
 	private String NewsDesc;
 	private String NewsType;
 	private String NewsVideoId;
+	private String NewsVideourl;
+
+	public String getNewsVideourl() {
+		return NewsVideourl;
+	}
+
+	public void setNewsVideourl(String newsVideourl) {
+		NewsVideourl = newsVideourl;
+	}
 
 	public ItemLatest() {
 		// TODO Auto-generated constructor stub

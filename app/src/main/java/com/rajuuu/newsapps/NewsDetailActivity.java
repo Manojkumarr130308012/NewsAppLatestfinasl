@@ -197,6 +197,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                         objBean.setNewsView(objJson.getString(Constant.LATEST_VIEW));
                         objBean.setNewsType(objJson.getString(Constant.LATEST_TYPE));
                         objBean.setNewsVideoId(objJson.getString(Constant.LATEST_VIDEO_PLAY_ID));
+                        objBean.setNewsVideourl(objJson.getString(Constant.LATEST_VIDEO_URL));
 
                         JSONArray jsonArrayComment = objJson.getJSONArray(Constant.COMMENT_ARRAY_NAME);
                         if (jsonArrayComment.length() > 0 && !jsonArrayComment.get(0).equals("")) {
