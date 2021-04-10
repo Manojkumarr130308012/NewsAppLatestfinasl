@@ -29,8 +29,8 @@ import java.util.List;
 
 public class Contact extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Context mContext;
-    private ArrayList<String> arrayList = new ArrayList<>();
-    private ArrayList<String> arrayList1 = new ArrayList<>();
+    private ArrayList<String> arrayList;
+    private ArrayList<String> arrayList1;
     private SearchableSpinner spinner;
     MyListData[] myListData;
     List<MyListData> myListData1 = new ArrayList<>();
@@ -67,6 +67,9 @@ public class Contact extends AppCompatActivity implements AdapterView.OnItemSele
         protected void onPreExecute() {
             super.onPreExecute();
 //            showProgress(true);
+
+            arrayList = new ArrayList<>();
+            arrayList1 = new ArrayList<>();
         }
 
         @Override
@@ -125,7 +128,7 @@ arrayList1.add(""+objJson.getString("city_id"));
                     JSONObject mainJson = new JSONObject(result);
                     JSONArray jsonArray = mainJson.getJSONArray("NEWS_APP");
                     JSONObject objJson;
-                list = new ArrayList<>();
+                    list = new ArrayList<>();
                     myListData=new MyListData[jsonArray.length()];
                     for (int i = 0; i < jsonArray.length(); i++) {
                         objJson = jsonArray.getJSONObject(i);
@@ -133,7 +136,7 @@ arrayList1.add(""+objJson.getString("city_id"));
 
 
 
-                                list.add(new MyListData(""+objJson.getString("reporter_name"),""+objJson.getString("reporter_id"),""+objJson.getString("reporter_mobile"),""+objJson.getString("reporter_city"), R.drawable.ic_baseline_person));
+                        list.add(new MyListData(""+objJson.getString("reporter_name"),""+objJson.getString("reporter_id"),""+objJson.getString("reporter_mobile"),""+objJson.getString("reporter_city"), R.drawable.ic_baseline_person));
 
                     }
 
@@ -144,13 +147,69 @@ arrayList1.add(""+objJson.getString("city_id"));
 //                displayData();
 
                 RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-                MyListAdapter adapter = new MyListAdapter(list);
+                MyListAdapter adapter = new MyListAdapter(list,Contact.this);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(Contact.this));
                 recyclerView.setAdapter(adapter);
             }
         }
     }
+
+
+
+    @SuppressLint("StaticFieldLeak")
+    private class getreporterbycity extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            showProgress(true);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return JsonUtils.getJSONString(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+//            showProgress(false);
+            if (null == result || result.length() == 0) {
+//                lyt_not_found.setVisibility(View.VISIBLE);
+            } else {
+                try {
+
+                    JSONObject mainJson = new JSONObject(result);
+                    JSONArray jsonArray = mainJson.getJSONArray("NEWS_APP");
+                    JSONObject objJson;
+                    list = new ArrayList<>();
+                    myListData=new MyListData[jsonArray.length()];
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        objJson = jsonArray.getJSONObject(i);
+//                        Tipsmodel objItem = new Tipsmodel(objJson.getString("tips_id"),objJson.getString("tips_name"),objJson.getString("tips_desc"),objJson.getString("tips_image"));
+
+
+
+                        list.add(new MyListData(""+objJson.getString("reporter_name"),""+objJson.getString("reporter_id"),""+objJson.getString("reporter_mobile"),""+objJson.getString("reporter_city"), R.drawable.ic_baseline_person));
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                displayData();
+
+                RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                MyListAdapter adapter = new MyListAdapter(list,Contact.this);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(Contact.this));
+                recyclerView.setAdapter(adapter);
+            }
+        }
+    }
+
     private void setDataToAdapter(ArrayList<String> arrayList)
     {
         // Creating ArrayAdapter using the string array and default spinner layout
@@ -168,6 +227,8 @@ arrayList1.add(""+objJson.getString("city_id"));
         String selectedItemid =arrayList1.get(position).toString();
 
         Toast.makeText(mContext, " You select >> " + selectedItemText, Toast.LENGTH_SHORT).show();
+
+        new getreporterbycity().execute(Constant.REPORT_URL_CITY+"="+selectedItemid);
     }
 
     @Override

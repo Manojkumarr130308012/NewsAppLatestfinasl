@@ -1,5 +1,8 @@
 package com.example.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +20,9 @@ import java.util.List;
 
 public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder>{
     private List<MyListData> listdata;
-
+Context context;
     // RecyclerView recyclerView;
-    public MyListAdapter(List<MyListData> listdata) {
+    public MyListAdapter(List<MyListData> listdata, Context context) {
         this.listdata = listdata;
     }
     @Override
@@ -31,7 +34,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         final MyListData myListData = listdata.get(position);
         holder.textView.setText(listdata.get(position).getReporter_name());
         holder.textView1.setText(listdata.get(position).getReporter_city());
@@ -41,6 +44,16 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(),"click on item: "+myListData.getReporter_id(),Toast.LENGTH_LONG).show();
+            }
+        });
+        final String mobileno=""+listdata.get(position).getReporter_mobile();
+
+        holder.imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:"+mobileno));
+                startActivity(callIntent);
             }
         });
     }
@@ -53,6 +66,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
+        public ImageView imageView1;
         public TextView textView;
         public TextView textView1;
         public TextView textView2;
@@ -60,6 +74,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
         public ViewHolder(View itemView) {
             super(itemView);
             this.imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            this.imageView1 = (ImageView) itemView.findViewById(R.id.imageView1);
             this.textView = (TextView) itemView.findViewById(R.id.textView);
             this.textView1 = (TextView) itemView.findViewById(R.id.textView1);
             this.textView2= (TextView) itemView.findViewById(R.id.textView2);

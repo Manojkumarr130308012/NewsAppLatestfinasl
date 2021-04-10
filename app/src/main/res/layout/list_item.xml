@@ -47,4 +47,17 @@
         android:layout_toRightOf="@id/imageView"
         android:layout_below="@+id/textView1"
         android:textSize="14sp"/>
+
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_baseline_local_phone"
+         />
+
 </RelativeLayout>
