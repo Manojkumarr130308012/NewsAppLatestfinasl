@@ -62,7 +62,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class AddNews extends AppCompatActivity {
     EditText Title,Description;
     ImageView logo;
-    String titlestr,decriptionstr,Imagestr;
+    String titlestr,decriptionstr,Imagestr="";
     TextView Next,whatsapp;
     boolean check = true;
     Constant constant;
@@ -133,7 +133,7 @@ public class AddNews extends AppCompatActivity {
                 titlestr= Title.getText().toString();
                 decriptionstr=Description.getText().toString();
 
-
+Log.e("dddddddddddddddd",""+Imagestr);
 
                 if (titlestr.equals("")){
 
@@ -414,6 +414,8 @@ logo.setOnClickListener(new View.OnClickListener() {
                 String FinalData = imageProcessClass.ImageHttpRequest(Constant.ADD_NEWS, HashMapParams);
 
                 Log.e("xxxxxx",""+HashMapParams);
+                Intent i=new Intent(AddNews.this,ActivityMain.class);
+                startActivity(i);
 
                 return FinalData;
             }
