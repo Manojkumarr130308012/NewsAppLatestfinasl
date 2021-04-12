@@ -195,9 +195,9 @@ public class ActivityMain extends AppCompatActivity {
                     }
                 });
 
-        if (!hasPermissions(this, PERMISSIONS)) {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-        }
+//        if (!hasPermissions(this, PERMISSIONS)) {
+//            ActivityCompat.requestPermissions(this, PERMISSIONS, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+//        }
 
         if (MyApp.getIsLogin()) {
             navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);

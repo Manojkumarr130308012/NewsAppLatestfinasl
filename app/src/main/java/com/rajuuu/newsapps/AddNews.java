@@ -20,6 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -68,6 +69,8 @@ public class AddNews extends AppCompatActivity {
     CardView card1,card2;
     MyApplication myApplication;
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
+    final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
+    String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
     public static final String ALLOW_KEY = "ALLOWED";
     public static final String CAMERA_PREF = "camera_pref";
     RadioButton simpleRadioButton,simpleRadioButton1;
@@ -182,7 +185,12 @@ logo.setOnClickListener(new View.OnClickListener() {
                 }
             }
         } else {
-            selectImage();
+            if (!hasPermissions(AddNews.this, PERMISSIONS)) {
+                ActivityCompat.requestPermissions(AddNews.this, PERMISSIONS, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+            }else{
+                selectImage();
+            }
+
         }
     }
 });
@@ -238,7 +246,16 @@ logo.setOnClickListener(new View.OnClickListener() {
                 });
         alertDialog.show();
     }
-
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public static void startInstalledAppDetailsActivity(final Activity context) {
         if (context == null) {
             return;
@@ -312,7 +329,7 @@ logo.setOnClickListener(new View.OnClickListener() {
                     File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
                     try {
                         outFile = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, outFile);
                         outFile.flush();
                         outFile.close();
                     } catch (FileNotFoundException e) {
@@ -336,7 +353,7 @@ logo.setOnClickListener(new View.OnClickListener() {
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 Log.w("path of image ....", picturePath+"");
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                thumbnail.compress(Bitmap.CompressFormat.JPEG, 0, baos);
                 byte[] imageBytes = baos.toByteArray();
                 Imagestr= Base64.encodeToString(imageBytes, Base64.NO_WRAP);
                 logo.setImageBitmap(thumbnail);

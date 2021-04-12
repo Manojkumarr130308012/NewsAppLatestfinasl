@@ -26,6 +26,7 @@
                     android:id="@+id/simpleRadioButton"
                     android:layout_width="0dp"
                     android:text="Image"
+                    android:checked="true"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"/>
                 <RadioButton
