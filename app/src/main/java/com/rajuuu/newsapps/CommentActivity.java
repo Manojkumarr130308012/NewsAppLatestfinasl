@@ -33,9 +33,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import libs.mjn.prettydialog.PrettyDialog;
 import libs.mjn.prettydialog.PrettyDialogCallback;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class CommentActivity extends AppCompatActivity {
 
@@ -56,7 +57,7 @@ public class CommentActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override

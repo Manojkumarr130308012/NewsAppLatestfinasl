@@ -32,9 +32,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.refactor.library.SmoothCheckBox;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import libs.mjn.prettydialog.PrettyDialog;
 import libs.mjn.prettydialog.PrettyDialogCallback;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class SignInActivity extends AppCompatActivity implements Validator.ValidationListener {
 
@@ -63,7 +64,7 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override

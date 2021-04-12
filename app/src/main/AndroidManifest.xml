@@ -17,17 +17,23 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/app_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Image"
+        <activity android:name=".Favorite"
+            android:label="Favorite"
+            android:parentActivityName=".ActivityMain"
+            android:theme="@style/AppTheme1"></activity>
+        <activity
+            android:name=".Image"
             android:label="Tips"
             android:parentActivityName=".Tips"
-            android:theme="@style/AppTheme1"></activity>
-        <activity android:name=".TipsApplcation"
+            android:theme="@style/AppTheme1" />
+        <activity
+            android:name=".TipsApplcation"
             android:label="Tips"
             android:parentActivityName=".Tips"
             android:theme="@style/AppTheme1" />
@@ -36,7 +42,11 @@
             android:label="AddNews"
             android:parentActivityName=".ActivityMain"
             android:theme="@style/AppTheme1" />
-        <activity android:name=".Contact" />
+        <activity
+            android:name=".Contact"
+            android:label="Contacts"
+            android:parentActivityName=".ActivityMain"
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".Tips"
             android:label="Tips"
@@ -44,7 +54,7 @@
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".LatestNews"
-            android:label="LatestNews"
+            android:label="Latest News"
             android:parentActivityName=".ActivityMain"
             android:theme="@style/AppTheme1" />
         <activity android:name=".ActivitySplash">

@@ -1,55 +1,45 @@
-package com.example.fragment;
+package com.rajuuu.newsapps;
 
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
+
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.adapter.LatestAdapter;
 import com.example.favorite.DatabaseHelper;
 import com.example.item.ItemLatest;
-import com.rajuuu.newsapps.R;
 
 import java.util.ArrayList;
 
-
-public class FavoriteFragment extends Fragment {
-
+public class Favorite extends AppCompatActivity {
     ArrayList<ItemLatest> mListItem;
     public RecyclerView recyclerView;
     LatestAdapter adapter;
     private LinearLayout lyt_not_found;
     DatabaseHelper databaseHelper;
     TextView no_fav;
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_category, container, false);
-
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_favorite);
         mListItem = new ArrayList<>();
-        databaseHelper = new DatabaseHelper(getActivity());
-        lyt_not_found = rootView.findViewById(R.id.lyt_not_found);
-        recyclerView = rootView.findViewById(R.id.vertical_courses_list);
-        no_fav = rootView.findViewById(R.id.no_fav);
+        databaseHelper = new DatabaseHelper(Favorite.this);
+        lyt_not_found = findViewById(R.id.lyt_not_found);
+        recyclerView = findViewById(R.id.vertical_courses_list);
+        no_fav = findViewById(R.id.no_fav);
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(Favorite.this, 1));
         recyclerView.setFocusable(false);
-
-        return rootView;
     }
 
     private void displayData() {
 
-        adapter = new LatestAdapter(getActivity(), mListItem);
+        adapter = new LatestAdapter(Favorite.this, mListItem);
         recyclerView.setAdapter(adapter);
 
         if (adapter.getItemCount() == 0) {
@@ -66,5 +56,4 @@ public class FavoriteFragment extends Fragment {
         mListItem = databaseHelper.getFavourite();
         displayData();
     }
-
 }

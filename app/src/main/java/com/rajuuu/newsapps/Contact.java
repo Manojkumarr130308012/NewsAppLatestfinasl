@@ -57,7 +57,7 @@ public class Contact extends AppCompatActivity implements AdapterView.OnItemSele
     {
         spinner = (SearchableSpinner) findViewById(R.id.spinner);
         //For set Title to Spinner
-        spinner.setTitle("Select Company");
+        spinner.setTitle("Select City");
         setDataToAdapter(arrayList);
     }
     @SuppressLint("StaticFieldLeak")

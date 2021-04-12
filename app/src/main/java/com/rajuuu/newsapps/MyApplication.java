@@ -13,7 +13,11 @@ import com.onesignal.OneSignal;
 
 import org.json.JSONObject;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
+import io.github.inflationx.viewpump.ViewPump;
+
 
 public class MyApplication extends Application {
 
@@ -29,14 +33,19 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("myfonts/Poppins-Regular_0.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build());
+
         OneSignal.startInit(this)
                 .setNotificationOpenedHandler(new ExampleNotificationOpenedHandler())
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                 .init();
+        ViewPump.init(ViewPump.builder()
+                .addInterceptor(new CalligraphyInterceptor(
+                        new CalligraphyConfig.Builder()
+                                .setDefaultFontPath("myfonts/Poppins-Regular_0.ttf")
+                                .setFontAttrId(R.attr.fontPath)
+                                .build()))
+                .build());
+
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());

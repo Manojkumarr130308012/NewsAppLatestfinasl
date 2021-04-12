@@ -2,10 +2,19 @@ package com.rajuuu.newsapps;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,11 +23,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,20 +62,67 @@ public class AddNews extends AppCompatActivity {
     EditText Title,Description;
     ImageView logo;
     String titlestr,decriptionstr,Imagestr;
-    TextView Next;
+    TextView Next,whatsapp;
     boolean check = true;
     Constant constant;
+    CardView card1,card2;
     MyApplication myApplication;
+    public static final int MY_PERMISSIONS_REQUEST_CAMERA = 100;
+    public static final String ALLOW_KEY = "ALLOWED";
+    public static final String CAMERA_PREF = "camera_pref";
+    RadioButton simpleRadioButton,simpleRadioButton1;
+    LinearLayout lin1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_news);
 
         Title=findViewById(R.id.Title);
+        whatsapp=findViewById(R.id.whatsapp);
+        lin1=findViewById(R.id.lin1);
+        simpleRadioButton=findViewById(R.id.simpleRadioButton);
+        simpleRadioButton1=findViewById(R.id.simpleRadioButton1);
         Description=findViewById(R.id.Description);
         logo=findViewById(R.id.logo);
         Next=findViewById(R.id.Next);
+        card1=findViewById(R.id.card1);
+        card2=findViewById(R.id.card2);
         myApplication = MyApplication.getAppInstance();
+
+        simpleRadioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lin1.setVisibility(View.VISIBLE);
+                card2.setVisibility(View.GONE);
+                simpleRadioButton1.setChecked(false);
+            }
+        });
+        simpleRadioButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lin1.setVisibility(View.GONE);
+                card2.setVisibility(View.VISIBLE);
+                simpleRadioButton.setChecked(false);
+            }
+        });
+        whatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String smsNumber = "9159179559"; //without '+'
+
+                try {
+                    //linking for whatsapp
+                    Uri uri = Uri.parse("whatsapp://send?phone=+91" + smsNumber);
+                    Intent i = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(i);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                    //if you're in anonymous class pass context like "YourActivity.this"
+//                    Toast.makeText(this, "WhatsApp not installed.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
         Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,13 +157,101 @@ public class AddNews extends AppCompatActivity {
 logo.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
-        selectImage();
+
+
+        if (ContextCompat.checkSelfPermission(AddNews.this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (getFromPref(AddNews.this, ALLOW_KEY)) {
+
+                showSettingsAlert();
+
+            } else if (ContextCompat.checkSelfPermission(AddNews.this,
+                    Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(AddNews.this,
+                        Manifest.permission.CAMERA)) {
+                    showAlert();
+                } else {
+                    // No explanation needed, we can request the permission.
+                    ActivityCompat.requestPermissions(AddNews.this,
+                            new String[]{Manifest.permission.CAMERA},
+                            MY_PERMISSIONS_REQUEST_CAMERA);
+                }
+            }
+        } else {
+            selectImage();
+        }
     }
 });
 
     }
 
+    public static Boolean getFromPref(Context context, String key) {
+        SharedPreferences myPrefs = context.getSharedPreferences
+                (CAMERA_PREF, Context.MODE_PRIVATE);
+        return (myPrefs.getBoolean(key, false));
+    }
+    private void showAlert() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage("App needs to access the Camera.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "DONT ALLOW",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ALLOW",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        ActivityCompat.requestPermissions(AddNews.this,
+                                new String[]{Manifest.permission.CAMERA},
+                                MY_PERMISSIONS_REQUEST_CAMERA);
 
+                    }
+                });
+        alertDialog.show();
+    }
+    private void showSettingsAlert() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage("App needs to access the Camera.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "DONT ALLOW",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        //finish();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "SETTINGS",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        startInstalledAppDetailsActivity(AddNews.this);
+
+                    }
+                });
+        alertDialog.show();
+    }
+
+    public static void startInstalledAppDetailsActivity(final Activity context) {
+        if (context == null) {
+            return;
+        }
+        final Intent i = new Intent();
+        i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        i.addCategory(Intent.CATEGORY_DEFAULT);
+        i.setData(Uri.parse("package:" + context.getPackageName()));
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        context.startActivity(i);
+    }
     private void selectImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(AddNews.this);

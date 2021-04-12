@@ -50,7 +50,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
 
 public class ActivityMain extends AppCompatActivity {
 
@@ -69,7 +70,7 @@ public class ActivityMain extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override
@@ -139,8 +140,10 @@ public class ActivityMain extends AppCompatActivity {
                                 mDrawerLayout.closeDrawers();
                                 break;
                             case R.id.nav_latest:
-                                LatestFragment latestFragment = new LatestFragment();
-                                loadFrag(latestFragment, getString(R.string.menu_latest), fragmentManager);
+//                                LatestFragment latestFragment = new LatestFragment();
+//                                loadFrag(latestFragment, getString(R.string.menu_latest), fragmentManager);
+                                Intent i=new Intent(ActivityMain.this,LatestNews.class);
+                                startActivity(i);
                                 mDrawerLayout.closeDrawers();
                                 break;
                             case R.id.nav_cat:
@@ -155,8 +158,8 @@ public class ActivityMain extends AppCompatActivity {
                                 break;
 
                             case R.id.nav_fav:
-                                FavoriteFragment favoriteFragment = new FavoriteFragment();
-                                loadFrag(favoriteFragment, getString(R.string.menu_favorite), fragmentManager);
+                                Intent i1=new Intent(ActivityMain.this,Favorite.class);
+                                startActivity(i1);
                                 mDrawerLayout.closeDrawers();
                                 break;
                             case R.id.nav_profile:

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">News Application</string>
+    <string name="app_name">Kaval Thuli</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="no_item_found">No item found..</string>
@@ -17,7 +17,7 @@
     <string name="no_data_found">No data found!!</string>
 
     <!--Drawer Menu -->
-    <string name="menu_home">Home</string>
+    <string name="menu_home">Kaval Thuli</string>
     <string name="menu_latest">Latest News</string>
     <string name="menu_most">Most View News</string>
     <string name="menu_category">Categories</string>

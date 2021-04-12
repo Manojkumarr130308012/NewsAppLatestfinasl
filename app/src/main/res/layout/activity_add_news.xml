@@ -16,7 +16,31 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="match_parent">
-     <androidx.cardview.widget.CardView
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:weightSum="2"
+                android:layout_margin="20dp"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/simpleRadioButton"
+                    android:layout_width="0dp"
+                    android:text="Image"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:id="@+id/simpleRadioButton1"
+                    android:layout_width="0dp"
+                    android:text="Video"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/lin1"
+    android:orientation="vertical">
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_large"
@@ -92,6 +116,7 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:weightSum="2"
+        android:gravity="center_horizontal"
         android:layout_height="wrap_content">
 
 
@@ -134,11 +159,59 @@
 
 
     </LinearLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_middle"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:id="@+id/card1"
+        android:layout_marginBottom="@dimen/spacing_middle"
+        app:cardBackgroundColor="@color/green_500"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="2dp">
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            style="@style/RippleStyleWhite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/spacing_large"
+                android:paddingEnd="@dimen/spacing_large">
+
+                <TextView
+                    android:id="@+id/Next"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:gravity="center_horizontal"
+                    android:text="Submit"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/overlay_light_90"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
+
+
+
 
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:id="@+id/card2"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:layout_marginTop="@dimen/spacing_middle"
                 android:layout_marginEnd="@dimen/spacing_large"
@@ -160,18 +233,18 @@
                         android:paddingEnd="@dimen/spacing_large">
 
                         <TextView
-                            android:id="@+id/Next"
+                            android:id="@+id/whatsapp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/transparent"
                             android:gravity="center_horizontal"
-                            android:text="Next"
+                            android:text="Share to Whatsapp"
                             android:textAlignment="center"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                             android:textColor="@color/overlay_light_90"
                             android:textStyle="bold"/>
 
-                     </LinearLayout>
+                    </LinearLayout>
 
                 </com.balysv.materialripple.MaterialRippleLayout>
 

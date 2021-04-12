@@ -25,9 +25,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import libs.mjn.prettydialog.PrettyDialog;
 import libs.mjn.prettydialog.PrettyDialogCallback;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 
 public class ForgotPasswordActivity extends AppCompatActivity implements Validator.ValidationListener {
@@ -44,7 +45,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Validat
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
 
     @Override
